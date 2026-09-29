@@ -15,7 +15,8 @@ const PUBLICOS = [
   "css",
   "js",
   "assets",
-  "google4727fa26d908715f.html", // verificación de Google Search Console
+  "_redirects",
+  "google-verificacion.txt", // verificación de Google Search Console (ver _redirects)
 ];
 const HORAS_HONDURAS = -6;
 const DURACION_HORAS = 2;

@@ -1,0 +1,3 @@
+# Verificación de Google Search Console. Cloudflare Pages redirige las rutas .html,
+# así que el archivo se sirve desde un .txt con una reescritura (200, sin redirección).
+/google4727fa26d908715f.html /google-verificacion.txt 200
