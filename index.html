@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Tabla de posiciones, jornadas y simulador del Apertura 2026 de la Liga Nacional de Honduras. Proyecto independiente.">
+  <meta name="theme-color" content="#0A1128">
+  <title>La 16 · Apertura 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="barra">
+    <div class="barra__marca">
+      <span class="marca">La&nbsp;16</span>
+      <span class="barra__torneo">Apertura 2026 · Liga Nacional de Honduras</span>
+    </div>
+    <div class="bug" id="bug" aria-live="polite"></div>
+  </header>
+
+  <nav class="pestanas" role="tablist" aria-label="Secciones">
+    <button class="pestana" role="tab" id="tab-tabla" aria-controls="vista-tabla" data-vista="tabla">Tabla</button>
+    <button class="pestana" role="tab" id="tab-jornadas" aria-controls="vista-jornadas" data-vista="jornadas">Jornadas</button>
+    <button class="pestana" role="tab" id="tab-equipo" aria-controls="vista-equipo" data-vista="equipo">¿Qué necesita?</button>
+  </nav>
+
+  <div class="aviso-sim" id="aviso-sim" hidden>
+    <p><strong>Simulación activa.</strong> <span id="aviso-sim-texto"></span></p>
+    <button class="boton boton--linea" id="borrar-sim" type="button">Borrar simulación</button>
+  </div>
+
+  <main>
+    <section class="vista" id="vista-tabla" role="tabpanel" aria-labelledby="tab-tabla">
+      <div class="vista__cabecera">
+        <h1 class="titulo">Tabla general</h1>
+        <div class="filtros" role="group" aria-label="Filtrar por grupo">
+          <button class="chip" type="button" data-grupo="todos">General</button>
+          <button class="chip" type="button" data-grupo="N">Norte</button>
+          <button class="chip" type="button" data-grupo="CO">Centro-Oriente</button>
+        </div>
+      </div>
+      <p class="nota" id="nota-grupo" hidden>Los grupos solo definen el calendario. La posición que se muestra es la de la tabla general.</p>
+      <div class="tabla-envoltura">
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th scope="col" class="c-pos"><abbr title="Posición">#</abbr></th>
+              <th scope="col" class="c-equipo">Equipo</th>
+              <th scope="col"><abbr title="Partidos jugados">PJ</abbr></th>
+              <th scope="col" class="c-extra"><abbr title="Ganados">G</abbr></th>
+              <th scope="col" class="c-extra"><abbr title="Empatados">E</abbr></th>
+              <th scope="col" class="c-extra"><abbr title="Perdidos">P</abbr></th>
+              <th scope="col" class="c-extra"><abbr title="Goles a favor">GF</abbr></th>
+              <th scope="col" class="c-extra"><abbr title="Goles en contra">GC</abbr></th>
+              <th scope="col"><abbr title="Diferencia de goles">DG</abbr></th>
+              <th scope="col" class="c-pts"><abbr title="Puntos">Pts</abbr></th>
+              <th scope="col" class="c-forma">Últimos 5</th>
+            </tr>
+          </thead>
+          <tbody id="cuerpo-tabla"></tbody>
+        </table>
+      </div>
+      <ul class="leyenda" id="leyenda"></ul>
+      <p class="nota">Desempate: diferencia de goles, goles a favor y luego la serie particular entre los empatados. El último lugar juega un repechaje de ida y vuelta contra el último del Clausura.</p>
+    </section>
+
+    <section class="vista" id="vista-jornadas" role="tabpanel" aria-labelledby="tab-jornadas" hidden>
+      <div class="vista__cabecera">
+        <h1 class="titulo" id="titulo-jornada">Jornada</h1>
+        <div class="paginador">
+          <button class="boton boton--icono" type="button" id="jornada-ant" aria-label="Jornada anterior">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+          </button>
+          <span class="paginador__texto" id="jornada-texto"></span>
+          <button class="boton boton--icono" type="button" id="jornada-sig" aria-label="Jornada siguiente">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </div>
+      <p class="nota">En los partidos pendientes puedes escribir un marcador para simular cómo quedaría la tabla. La simulación se guarda solo en este navegador.</p>
+      <ol class="partidos" id="lista-partidos"></ol>
+    </section>
+
+    <section class="vista" id="vista-equipo" role="tabpanel" aria-labelledby="tab-equipo" hidden>
+      <div class="vista__cabecera">
+        <h1 class="titulo">¿Qué necesita?</h1>
+        <label class="selector">
+          <span class="selector__etiqueta">Equipo</span>
+          <select id="selector-equipo"></select>
+        </label>
+      </div>
+      <div id="analisis"></div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <p id="pie-actualizado"></p>
+    <p>Proyecto independiente de aficionados, sin afiliación con la Liga Nacional de Fútbol Profesional de Honduras ni con los clubes. Resultados capturados a mano: verifica con fuentes oficiales.</p>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/tabla.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
