@@ -863,6 +863,240 @@ main {
   color: var(--texto-suave);
 }
 
+/* Texto solo para lectores de pantalla */
+.solo-lectores {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Enlace del equipo en la tabla */
+a.equipo {
+  color: inherit;
+  text-decoration: none;
+}
+
+a.equipo:hover span:nth-child(2) {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Probabilidad de liguilla */
+.tabla td.c-prob {
+  font-weight: 600;
+  color: var(--texto-suave);
+  min-width: 56px;
+}
+
+/* Mi equipo */
+.tabla tbody tr.fila--mia {
+  background: color-mix(in srgb, var(--acento) 12%, var(--superficie));
+}
+
+.tabla tbody tr.fila--mia .equipo > span:nth-child(2) {
+  font-weight: 700;
+}
+
+.partido--mio {
+  border-color: color-mix(in srgb, var(--acento) 60%, var(--linea));
+  box-shadow: inset 4px 0 0 var(--acento);
+}
+
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.boton--linea[aria-pressed="true"] {
+  border-color: var(--acento);
+  color: var(--acento);
+}
+
+.boton--solido {
+  background: var(--acento);
+  color: var(--acento-texto);
+  border: 1px solid var(--acento);
+}
+
+.boton--solido:hover {
+  filter: brightness(1.08);
+}
+
+a.boton {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.objetivo__prob {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 14px;
+  color: var(--texto-suave);
+}
+
+.objetivo__prob strong {
+  color: var(--texto);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Calendario */
+.calendario {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.calendario__titulo {
+  font-size: 14px;
+  color: var(--texto-suave);
+  width: 100%;
+}
+
+/* Gráfico de evolución */
+.grafico {
+  margin: 28px 0 0;
+}
+
+.grafico .subtitulo {
+  margin-top: 0;
+}
+
+.grafico__lienzo {
+  position: relative;
+  background: var(--superficie);
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  padding: 8px 4px 0;
+}
+
+.grafico svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  touch-action: pan-y;
+  font-family: var(--fuente-texto);
+}
+
+.grafico__rejilla {
+  stroke: var(--linea);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.grafico__eje {
+  fill: var(--texto-suave);
+  font-size: 12px;
+}
+
+.grafico__otra {
+  fill: none;
+  stroke: var(--texto-suave);
+  stroke-opacity: 0.28;
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.grafico__mia {
+  fill: none;
+  stroke: var(--acento);
+  stroke-width: 2.5;
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.grafico__punto {
+  fill: var(--acento);
+  stroke: var(--superficie);
+  stroke-width: 2;
+}
+
+.grafico__punto.activo {
+  r: 6.5;
+}
+
+.grafico__guia {
+  stroke: var(--texto-suave);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.texto-corto {
+  display: none;
+}
+
+.grafico__fin {
+  fill: var(--texto);
+  font-family: var(--fuente-display);
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.grafico__tip {
+  position: absolute;
+  transform: translate(-50%, calc(-100% - 12px));
+  background: #0A1128;
+  color: #F2F5FF;
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 0.3);
+}
+
+.grafico__tip[hidden] {
+  display: none;
+}
+
+.grafico__tabla {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.grafico__tabla summary {
+  cursor: pointer;
+  color: var(--texto-suave);
+  min-height: 32px;
+}
+
+.tabla--simple {
+  margin-top: 8px;
+  max-width: 320px;
+}
+
+.tabla--simple td {
+  height: 36px;
+}
+
+/* Sin conexión */
+.aviso-conexion {
+  padding: 10px max(16px, calc((100% - var(--ancho)) / 2));
+  background: var(--superficie-2);
+  border-bottom: 1px solid var(--linea);
+  font-size: 14px;
+  color: var(--texto-suave);
+}
+
+.aviso-conexion[hidden] {
+  display: none;
+}
+
 .aviso-datos {
   position: fixed;
   left: 50%;
@@ -944,8 +1178,35 @@ input {
     font-size: 26px;
   }
 
-  .tabla .c-forma {
+  .tabla .c-forma,
+  .tabla .c-pj,
+  .texto-largo {
     display: none;
+  }
+
+  .texto-corto {
+    display: inline;
+  }
+
+  .tabla td.c-prob {
+    min-width: 0;
+  }
+
+  /* El gráfico se reduce: texto y puntos más grandes en unidades del dibujo */
+  .grafico__eje {
+    font-size: 21px;
+  }
+
+  .grafico__fin {
+    font-size: 26px;
+  }
+
+  .grafico__punto {
+    r: 8;
+  }
+
+  .grafico__punto.activo {
+    r: 11;
   }
 
   .tabla .equipo__grupo {
@@ -1018,6 +1279,26 @@ input {
   .tabla td,
   .tabla th {
     padding-inline: 5px;
+  }
+
+  .tabla td.c-pos {
+    width: 34px;
+    font-size: 18px;
+  }
+
+  .tabla .escudo {
+    width: 26px;
+    height: 26px;
+    font-size: 10px;
+  }
+
+  .tabla .equipo {
+    gap: 8px;
+    font-size: 15px;
+  }
+
+  .tabla td.c-prob {
+    font-size: 14px;
   }
 
   .marcador__gol,

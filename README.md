@@ -11,6 +11,12 @@ Proyecto independiente de aficionados, sin afiliación con la Liga Nacional de F
 - **Tabla:** se calcula a partir de los resultados. Marca las zonas de semifinal directa (1.° y 2.°), repechaje (3.° a 6.°) y repechaje de descenso (12.°), muestra los últimos 5 resultados de cada equipo y tiene un filtro por grupo.
 - **Jornadas:** resultados de cada jornada. En los partidos pendientes puedes escribir un marcador y la tabla se recalcula, con flechas que muestran quién sube y quién baja. La simulación se guarda solo en el navegador.
 - **¿Qué necesita?:** para cada equipo indica si ya aseguró o perdió la semifinal directa, la liguilla o la permanencia fuera del último lugar, o cuántos puntos necesita para conseguirlo sin depender de nadie.
+- **Probabilidades:** simula 4000 veces el resto del torneo (goles con distribución de Poisson según ataque, defensa y ventaja de local, suavizados hacia el promedio de la liga) y estima la probabilidad de semifinal, liguilla y último lugar. Tiene semilla fija: con los mismos datos da los mismos números. Se calcula por partes para no trabar la página.
+- **Mi equipo:** resalta tu equipo en la tabla y en las jornadas. Se guarda en el navegador.
+- **Compartir:** texto listo para WhatsApp con la situación del equipo (siempre con datos reales, nunca simulados) y un enlace directo, por ejemplo `#equipo/MOT`.
+- **Evolución:** gráfico de la posición del equipo jornada a jornada, con alternativa en tabla.
+- **Calendario:** suscripción por equipo (Google Calendar, iPhone, Outlook) que se actualiza si cambia un horario.
+- **Sin conexión:** un service worker guarda la última versión vista. Siempre intenta primero la red.
 
 ## Cómo abrirlo en local
 
@@ -22,9 +28,16 @@ python -m http.server 8716
 
 Luego abre http://localhost:8716. También funciona con doble clic en `index.html`, aunque en ese caso la consola muestra avisos inofensivos sobre la precarga de fuentes.
 
+Los calendarios, `robots.txt` y `sitemap.xml` se generan en el build. Para ver el sitio exactamente como en producción:
+
+```bash
+node scripts/construir.mjs
+cd _site && python -m http.server 8716
+```
+
 ## Actualización automática
 
-- **Publicación:** Cloudflare Pages está conectado al repo y publica cada commit a `main`. El comando de build copia solo los archivos del sitio (`index.html`, `manifest.webmanifest`, `_headers`, `css`, `js` y `assets`) a `_site`.
+- **Publicación:** Cloudflare Pages está conectado al repo y publica cada commit a `main`. Configuración del proyecto: comando de build `node scripts/construir.mjs` y carpeta de salida `_site`. El script copia solo los archivos públicos y genera `calendario/*.ics`, `robots.txt` y `sitemap.xml`.
 - **Actualización:** la tarea `.github/workflows/actualizar.yml` ejecuta `scripts/actualizar.mjs`, que consulta TheSportsDB y escribe en `js/data.js`. Si hubo cambios hace commit, y Cloudflare publica ese commit.
   - Cada 30 minutos de 3 p. m. a 12:30 a. m. (hora de Honduras), en modo rápido: solo consulta la API si hay un partido que empezó hace más de 1 h 45 min y sigue sin marcador. Los días sin partidos no hace ninguna petición.
   - A las 8 a. m., y cuando se lanza a mano, en modo completo: revisa todas las jornadas pendientes, incluidos cambios de horario.
@@ -55,7 +68,7 @@ Todo está en `js/data.js`. Cada partido ocupa una línea con el mismo formato, 
 
 - Cabeceras de seguridad en `_headers` (Cloudflare): CSP estricta, `frame-ancestors 'none'` y `X-Frame-Options: DENY` contra que otra página meta el sitio en un marco, `nosniff`, `Referrer-Policy`, `Permissions-Policy` y HSTS.
 - La CSP también va en una etiqueta `<meta>` de `index.html`. Solo se cargan scripts, estilos, fuentes e imágenes del propio sitio, y no hay estilos ni scripts en línea.
-- Sin dependencias externas en tiempo de ejecución: las fuentes se sirven desde el propio sitio, sin Google Fonts.
+- Sin dependencias externas en tiempo de ejecución: las fuentes se sirven desde el propio sitio, sin Google Fonts. La única excepción permitida en la CSP es el contador de visitas de Cloudflare Web Analytics (sin cookies).
 - La tarea de GitHub corre con permisos mínimos y las acciones están fijadas por hash de commit.
 - Todo se sirve por HTTPS.
 

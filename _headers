@@ -1,6 +1,6 @@
 # Cabeceras para Cloudflare Pages (GitHub Pages ignora este archivo).
 /*
-  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'none'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self'; font-src 'self'; img-src 'self'; manifest-src 'self'; connect-src 'self' https://cloudflareinsights.com; worker-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
@@ -9,3 +9,10 @@
 
 /assets/fonts/*
   Cache-Control: public, max-age=31536000, immutable
+
+/sw.js
+  Cache-Control: no-cache
+
+/calendario/*
+  Content-Type: text/calendar; charset=utf-8
+  Cache-Control: public, max-age=3600

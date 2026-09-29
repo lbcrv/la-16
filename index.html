@@ -2,11 +2,11 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self'; font-src 'self'; img-src 'self'; manifest-src 'self'; connect-src 'self' https://cloudflareinsights.com; worker-src 'self'; base-uri 'none'; form-action 'none'">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>La 16 · Apertura 2026</title>
-  <meta name="description" content="Tabla de posiciones, jornadas y simulador del Apertura 2026 de la Liga Nacional de Honduras. Proyecto independiente.">
+  <title>La 16 · Tabla y simulador del Apertura 2026 de la Liga Nacional de Honduras</title>
+  <meta name="description" content="Tabla de posiciones del Apertura 2026 de la Liga Nacional de Honduras, simulador de jornadas, probabilidades de clasificar y qué necesita cada equipo para la liguilla. Proyecto independiente.">
   <meta name="theme-color" content="#0A1128">
   <link rel="canonical" href="https://la-16.pages.dev/">
 
@@ -46,6 +46,10 @@
     <button class="pestana" role="tab" id="tab-equipo" aria-controls="vista-equipo" data-vista="equipo">¿Qué necesita?</button>
   </nav>
 
+  <div class="aviso-conexion" id="aviso-conexion" role="status" hidden>
+    Sin conexión: se muestran los últimos datos guardados.
+  </div>
+
   <div class="aviso-sim" id="aviso-sim" hidden>
     <p><strong>Simulación activa.</strong> <span id="aviso-sim-texto"></span></p>
     <button class="boton boton--linea" id="borrar-sim" type="button">Borrar simulación</button>
@@ -69,7 +73,7 @@
             <tr>
               <th scope="col" class="c-pos"><abbr title="Posición">#</abbr></th>
               <th scope="col" class="c-equipo">Equipo</th>
-              <th scope="col"><abbr title="Partidos jugados">PJ</abbr></th>
+              <th scope="col" class="c-pj"><abbr title="Partidos jugados">PJ</abbr></th>
               <th scope="col" class="c-extra"><abbr title="Ganados">G</abbr></th>
               <th scope="col" class="c-extra"><abbr title="Empatados">E</abbr></th>
               <th scope="col" class="c-extra"><abbr title="Perdidos">P</abbr></th>
@@ -77,6 +81,7 @@
               <th scope="col" class="c-extra"><abbr title="Goles en contra">GC</abbr></th>
               <th scope="col"><abbr title="Diferencia de goles">DG</abbr></th>
               <th scope="col" class="c-pts"><abbr title="Puntos">Pts</abbr></th>
+              <th scope="col" class="c-prob"><abbr title="Probabilidad estimada de terminar entre los 6 primeros"><span class="texto-largo">Liguilla</span><span class="texto-corto">Lig.</span></abbr></th>
               <th scope="col" class="c-forma">Últimos 5</th>
             </tr>
           </thead>
@@ -84,6 +89,7 @@
         </table>
       </div>
       <ul class="leyenda" id="leyenda"></ul>
+      <p class="nota">Toca un equipo para ver qué necesita. La columna Liguilla es la probabilidad estimada de terminar entre los 6 primeros.</p>
       <p class="nota">Desempate: diferencia de goles, goles a favor y luego la serie particular entre los empatados. El último lugar juega un repechaje de ida y vuelta contra el último del Clausura.</p>
     </section>
 
@@ -120,7 +126,8 @@
 
   <footer class="pie">
     <p id="pie-actualizado"></p>
-    <p>Proyecto independiente de aficionados, sin afiliación con la Liga Nacional de Fútbol Profesional de Honduras ni con los clubes. Resultados capturados a mano: verifica con fuentes oficiales.</p>
+    <p>Proyecto independiente de aficionados, sin afiliación con la Liga Nacional de Fútbol Profesional de Honduras ni con los clubes. Resultados tomados de fuentes públicas: verifica con fuentes oficiales.</p>
+    <p>Sin cookies. Las visitas se cuentan de forma anónima con Cloudflare Web Analytics. Tus simulaciones y tu equipo se guardan solo en tu navegador.</p>
   </footer>
 
   <script src="js/data.js" defer></script>
