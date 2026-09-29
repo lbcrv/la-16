@@ -113,6 +113,13 @@
     });
   }
 
+  // El ancho de las barras de probabilidad también va por CSSOM (ver pintarEscudos).
+  function pintarMedidores() {
+    document.querySelectorAll(".medidor__valor[data-valor]").forEach((el) => {
+      el.style.width = `${Math.round(Number(el.dataset.valor) * 1000) / 10}%`;
+    });
+  }
+
   // --- Probabilidades (se calculan por partes para no trabar la página) ---
   const prob = { clave: null, resultado: null, turno: 0 };
 
@@ -258,7 +265,10 @@
           <li class="partido${p.simulado ? " partido--sim" : ""}${mio ? " partido--mio" : ""}" data-id="${id}">
             <div class="partido__meta">
               <span>${cuando(p)}</span>
-              <span class="partido__etiqueta-sim" ${p.simulado ? "" : "hidden"}>Simulado</span>
+              <span class="partido__etiquetas">
+                ${mio ? '<span class="partido__etiqueta-mio">Tu equipo</span>' : ""}
+                <span class="partido__etiqueta-sim" ${p.simulado ? "" : "hidden"}>Simulado</span>
+              </span>
             </div>
             <div class="partido__cuerpo">
               <span class="partido__equipo partido__equipo--local"><span class="partido__nombre">${local.nombre}</span>${escudo(local)}</span>
@@ -518,9 +528,12 @@
               <div class="objetivo__nombre">${TEXTOS[clave].nombre}</div>
               <div class="resumen__etiqueta">${TEXTOS[clave].meta}</div>
             </div>
-            <span class="estado">${etiqueta}</span>
-            <p class="objetivo__detalle">${detalle(clave, r)}</p>
-            <p class="objetivo__prob">Probabilidad estimada: <strong>${porcentaje(pr)}</strong></p>
+            <div class="objetivo__cifra">
+              <span class="objetivo__porcentaje">${porcentaje(pr)}</span>
+              <span class="objetivo__cifra-etiqueta">probabilidad</span>
+            </div>
+            <div class="medidor" aria-hidden="true"><span class="medidor__valor" data-valor="${pr ?? 0}"></span></div>
+            <p class="objetivo__detalle"><span class="estado">${etiqueta}</span>${detalle(clave, r)}</p>
           </li>`;
       })
       .join("");
@@ -600,6 +613,7 @@
       renderEquipo(tabla, partidos);
     }
     pintarEscudos();
+    pintarMedidores();
   }
 
   function cambiarJornada(delta) {
