@@ -25,7 +25,10 @@ Luego abre http://localhost:8716. También funciona con doble clic en `index.htm
 ## Actualización automática
 
 - **Publicación:** Cloudflare Pages está conectado al repo y publica cada commit a `main`. El comando de build copia solo los archivos del sitio (`index.html`, `manifest.webmanifest`, `_headers`, `css`, `js` y `assets`) a `_site`.
-- **Actualización:** la tarea `.github/workflows/actualizar.yml` corre tres veces al día (10 p. m., 1 a. m. y 8 a. m. hora de Honduras). Ejecuta `scripts/actualizar.mjs`, que consulta TheSportsDB y escribe en `js/data.js`. Si hubo cambios hace commit, y Cloudflare publica ese commit.
+- **Actualización:** la tarea `.github/workflows/actualizar.yml` ejecuta `scripts/actualizar.mjs`, que consulta TheSportsDB y escribe en `js/data.js`. Si hubo cambios hace commit, y Cloudflare publica ese commit.
+  - Cada 30 minutos de 3 p. m. a 12:30 a. m. (hora de Honduras), en modo rápido: solo consulta la API si hay un partido que empezó hace más de 1 h 45 min y sigue sin marcador. Los días sin partidos no hace ninguna petición.
+  - A las 8 a. m., y cuando se lanza a mano, en modo completo: revisa todas las jornadas pendientes, incluidos cambios de horario.
+- **En el navegador:** si la página está abierta y visible, busca datos nuevos cada 5 minutos y al volver a la pestaña. Si cambió algo, recalcula todo sin recargar y muestra el aviso "Resultados actualizados". No interrumpe mientras se escribe un marcador en el simulador.
 - **Redirección:** `.github/workflows/redireccion.yml` publica en GitHub Pages solo la página de `redireccion/`, que manda a la dirección nueva y conserva la pestaña del enlace.
 
 Reglas del script:

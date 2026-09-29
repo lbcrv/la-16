@@ -863,6 +863,28 @@ main {
   color: var(--texto-suave);
 }
 
+.aviso-datos {
+  position: fixed;
+  left: 50%;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  z-index: 10;
+  background: #0A1128;
+  color: #F2F5FF;
+  border: 1px solid var(--acento);
+  border-left-width: 4px;
+  border-radius: var(--radio);
+  padding: 10px 16px;
+  font-weight: 600;
+  font-size: 15px;
+  box-shadow: 0 6px 20px rgb(0 0 0 / 0.35);
+  white-space: nowrap;
+}
+
+.aviso-datos[hidden] {
+  display: none;
+}
+
 .pie {
   max-width: var(--ancho);
   margin: 0 auto;

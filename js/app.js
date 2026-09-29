@@ -408,8 +408,50 @@
 
   window.addEventListener("hashchange", render);
 
-  const [a, m, d] = La16.torneo.actualizado.split("-").map(Number);
-  const actualizado = new Intl.DateTimeFormat("es-HN", { day: "numeric", month: "long", year: "numeric" }).format(new Date(a, m - 1, d));
-  $("pie-actualizado").textContent = `Resultados actualizados al ${actualizado}.`;
+  function renderPie() {
+    const [a, m, d] = La16.torneo.actualizado.split("-").map(Number);
+    const actualizado = new Intl.DateTimeFormat("es-HN", { day: "numeric", month: "long", year: "numeric" }).format(new Date(a, m - 1, d));
+    $("pie-actualizado").textContent = `Resultados actualizados al ${actualizado}.`;
+  }
+
+  // --- Datos nuevos sin recargar la página ---
+  const CADA = 5 * 60 * 1000;
+  let ultimaRevision = Date.now();
+  let temporizadorAviso;
+
+  function avisar(texto) {
+    const aviso = $("aviso-datos");
+    aviso.textContent = texto;
+    aviso.hidden = false;
+    clearTimeout(temporizadorAviso);
+    temporizadorAviso = setTimeout(() => (aviso.hidden = true), 5000);
+  }
+
+  // Vuelve a cargar js/data.js (se permite por la CSP porque es del mismo sitio)
+  // y recalcula todo si cambió algún resultado, fecha u hora.
+  function buscarDatosNuevos() {
+    if (document.visibilityState !== "visible") return;
+    if (document.activeElement && document.activeElement.matches("input, select")) return;
+    ultimaRevision = Date.now();
+    const antes = JSON.stringify(La16.partidos);
+    const script = document.createElement("script");
+    script.src = `js/data.js?t=${Date.now()}`;
+    script.onload = () => {
+      script.remove();
+      if (JSON.stringify(La16.partidos) === antes) return;
+      renderPie();
+      render();
+      avisar("Resultados actualizados");
+    };
+    script.onerror = () => script.remove();
+    document.head.appendChild(script);
+  }
+
+  setInterval(buscarDatosNuevos, CADA);
+  document.addEventListener("visibilitychange", () => {
+    if (Date.now() - ultimaRevision > 60 * 1000) buscarDatosNuevos();
+  });
+
+  renderPie();
   render();
 })(window.La16);

@@ -5,9 +5,13 @@ name: Actualizar resultados
 
 on:
   schedule:
-    # Horas en UTC. Equivalen a 10 p. m., 1 a. m. y 8 a. m. en Honduras (UTC-6),
-    # después de los partidos de la noche.
-    - cron: "0 4,7,14 * * *"
+    # Horas en UTC; Honduras es UTC-6.
+    # Cada 30 min de 3 p. m. a 12:30 a. m. de Honduras (modo rápido: solo consulta
+    # la API si hay un partido que ya debió terminar y no tiene marcador).
+    - cron: "*/30 21-23 * * *"
+    - cron: "*/30 0-6 * * *"
+    # 8 a. m. de Honduras: revisión completa, incluidos cambios de horario.
+    - cron: "0 14 * * *"
   workflow_dispatch:
 
 permissions:
@@ -30,6 +34,7 @@ jobs:
         run: node scripts/actualizar.mjs
         env:
           THESPORTSDB_KEY: ${{ secrets.THESPORTSDB_KEY }}
+          COMPLETO: ${{ github.event_name == 'workflow_dispatch' || github.event.schedule == '0 14 * * *' }}
 
       - name: Guardar cambios
         run: |

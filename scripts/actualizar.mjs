@@ -5,6 +5,12 @@
 // - Solo acepta partidos terminados y goles enteros; de la API no se copia texto.
 // - En partidos pendientes, actualiza fecha y hora si la liga las cambió.
 //
+// Modos:
+// - Completo (COMPLETO=true): revisa toda jornada con algún marcador u hora vacíos,
+//   para captar también cambios de horario.
+// - Rápido (por defecto): solo jornadas con un partido que ya debió jugarse
+//   (fecha de hoy o anterior, hora de Honduras) y sigue sin marcador.
+//
 // Uso: node scripts/actualizar.mjs   (clave opcional en THESPORTSDB_KEY)
 
 import { readFile, writeFile } from "node:fs/promises";
@@ -82,12 +88,25 @@ if (indice.size === 0) throw new Error("No se reconoció ningún partido en js/d
 const cambios = [];
 const avisos = [];
 
-// Solo se consultan jornadas con algún marcador u hora por llenar.
+const completo = process.env.COMPLETO === "true";
+// Un partido "ya debió terminar" si empezó hace al menos 1 h 45 min (hora de Honduras).
+const DURACION_MIN = 105;
+const limite = new Date(Date.now() + (HORAS_HONDURAS * 60 - DURACION_MIN) * 60 * 1000).toISOString().slice(0, 16);
+
 const porRevisar = new Set();
 for (const linea of lineas) {
   const m = LINEA.exec(linea);
-  if (m && (m[6] === "null" || m[3] === "null")) porRevisar.add(Number(/j: (\d+)/.exec(linea)[1]));
+  if (!m) continue;
+  const jornada = Number(/j: (\d+)/.exec(linea)[1]);
+  const sinMarcador = m[6] === "null";
+  const fecha = m[2] === "null" ? null : m[2].slice(1, -1);
+  const hora = m[3] === "null" ? "00:00" : m[3].slice(1, -1);
+  const yaTermino = fecha !== null && `${fecha}T${hora}` <= limite;
+  if (completo ? sinMarcador || m[3] === "null" : sinMarcador && yaTermino) {
+    porRevisar.add(jornada);
+  }
 }
+console.log(`Modo ${completo ? "completo" : "rápido"} · jornadas por revisar: ${[...porRevisar].join(", ") || "ninguna"}`);
 
 let primera = true;
 for (let n = 1; n <= JORNADAS; n++) {
