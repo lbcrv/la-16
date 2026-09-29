@@ -432,9 +432,16 @@
     const ejeX = datos
       .map((_, i) => `<text class="grafico__eje" x="${gx(i, n)}" y="${G.alto - 10}" text-anchor="middle">J${i + 1}</text>`)
       .join("");
+    // Cada línea gris lleva un trazo invisible más ancho para que sea fácil de tocar.
     const otras = La16.equipos
       .filter((e) => e.id !== id)
-      .map((e) => `<path class="grafico__otra" d="${linea(e.id)}"/>`)
+      .map(
+        (e) => `
+          <g class="grafico__linea" data-equipo="${e.id}">
+            <path class="grafico__otra" d="${linea(e.id)}"/>
+            <path class="grafico__toque" d="${linea(e.id)}"><title>${e.nombre}</title></path>
+          </g>`,
+      )
       .join("");
     const puntos = datos
       .map((m, i) => `<circle class="grafico__punto" data-i="${i}" cx="${gx(i, n)}" cy="${gy(m.get(id).pos)}" r="4.5"/>`)
@@ -458,7 +465,7 @@
           </svg>
           <div class="grafico__tip" hidden></div>
         </div>
-        <p class="nota">${nombre} en color; los demás equipos en gris. Solo resultados reales.</p>
+        <p class="nota">${nombre} en color; los demás equipos en gris. Toca una línea gris para ver ese equipo. Solo resultados reales.</p>
         <details class="grafico__tabla">
           <summary>Ver como tabla</summary>
           <table class="tabla tabla--simple">
@@ -474,7 +481,10 @@
     if (!svg) return;
     const datos = historialPosiciones();
     const n = Number(svg.dataset.n);
-    const id = svg.dataset.equipo;
+    // Sobre una línea gris se muestra ese equipo; en cualquier otro punto, el elegido.
+    const linea = evento.target.closest(".grafico__linea");
+    const id = linea ? linea.dataset.equipo : svg.dataset.equipo;
+    svg.querySelectorAll(".grafico__linea").forEach((g) => g.classList.toggle("resaltada", g === linea));
     const caja = svg.getBoundingClientRect();
     const x = ((evento.clientX - caja.left) * G.ancho) / caja.width;
     const i = Math.min(n - 1, Math.max(0, Math.round(((x - G.izq) * (n - 1)) / (G.ancho - G.izq - G.der))));
@@ -487,7 +497,8 @@
     svg.querySelectorAll(".grafico__punto").forEach((c) => c.classList.toggle("activo", Number(c.dataset.i) === i));
 
     const tip = svg.parentElement.querySelector(".grafico__tip");
-    tip.textContent = `Jornada ${i + 1}: ${dato.pos}.° · ${dato.pts} pts`;
+    const quien = linea ? `${equipos.get(id).nombre} · ` : "";
+    tip.textContent = `${quien}Jornada ${i + 1}: ${dato.pos}.° · ${dato.pts} pts`;
     tip.hidden = false;
     tip.style.left = `${(gx(i, n) / G.ancho) * caja.width}px`;
     tip.style.top = `${(gy(dato.pos) / G.alto) * caja.height}px`;
@@ -498,6 +509,7 @@
     if (!svg) return;
     svg.querySelector(".grafico__guia").setAttribute("visibility", "hidden");
     svg.querySelectorAll(".grafico__punto.activo").forEach((c) => c.classList.remove("activo"));
+    svg.querySelectorAll(".grafico__linea.resaltada").forEach((g) => g.classList.remove("resaltada"));
     svg.parentElement.querySelector(".grafico__tip").hidden = true;
   }
 
@@ -643,6 +655,13 @@
     render();
   });
 
+  // Toda la fila de la tabla abre el equipo (el enlace del nombre sigue para teclado).
+  $("cuerpo-tabla").addEventListener("click", (e) => {
+    if (e.target.closest("a")) return;
+    const enlace = e.target.closest("tr")?.querySelector("a.equipo");
+    if (enlace) location.hash = enlace.getAttribute("href").slice(1);
+  });
+
   $("jornada-ant").addEventListener("click", () => cambiarJornada(-1));
   $("jornada-sig").addEventListener("click", () => cambiarJornada(1));
   $("lista-partidos").addEventListener("input", alEscribirMarcador);
@@ -655,6 +674,8 @@
   });
 
   $("analisis").addEventListener("click", (e) => {
+    const linea = e.target.closest(".grafico__linea");
+    if (linea) location.hash = `equipo/${linea.dataset.equipo}`;
     if (e.target.closest("#boton-compartir")) compartir(estado.equipo);
     if (e.target.closest("#boton-mio")) {
       estado.miEquipo = estado.miEquipo === estado.equipo ? null : estado.equipo;

@@ -1,7 +1,7 @@
 // Arma el sitio en _site para Cloudflare Pages (comando de build: node scripts/construir.mjs).
 // Copia los archivos públicos y genera los calendarios por equipo, robots.txt y sitemap.xml.
 
-import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { cp, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import vm from "node:vm";
 
 const SITIO = "https://la-16.pages.dev";
@@ -21,8 +21,12 @@ const PUBLICOS = [
 const HORAS_HONDURAS = -6;
 const DURACION_HORAS = 2;
 
-await rm(SALIDA, { recursive: true, force: true });
+// Se vacía el contenido en vez de borrar la carpeta: en Windows no se puede
+// borrar una carpeta que otro proceso tiene abierta (por ejemplo un servidor local).
 await mkdir(SALIDA, { recursive: true });
+for (const nombre of await readdir(SALIDA)) {
+  await rm(new URL(nombre, SALIDA), { recursive: true, force: true });
+}
 for (const ruta of PUBLICOS) {
   await cp(new URL(ruta, RAIZ), new URL(ruta, SALIDA), { recursive: true });
 }
