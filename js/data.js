@@ -92,13 +92,12 @@ La16.partidos = [
   { j: 8, fecha: "2026-09-20", hora: null, local: "OLI", visita: "IND", gl: 4, gv: 0 },
   { j: 8, fecha: "2026-09-20", hora: null, local: "JUT", visita: "MAR", gl: 3, gv: 2 },
 
-  // Jornada 9: fecha sin confirmar. Localía deducida del reparto de partidos en casa.
-  { j: 9, fecha: null, hora: null, local: "EST", visita: "RE", gl: null, gv: null, nota: "Fecha y localía por confirmar" },
-  { j: 9, fecha: null, hora: null, local: "UPN", visita: "MAR", gl: null, gv: null, nota: "Fecha y localía por confirmar" },
-  { j: 9, fecha: null, hora: null, local: "PLA", visita: "JUT", gl: null, gv: null, nota: "Fecha y localía por confirmar" },
-  { j: 9, fecha: null, hora: null, local: "MOT", visita: "CHO", gl: null, gv: null, nota: "Fecha y localía por confirmar" },
-  { j: 9, fecha: null, hora: null, local: "OLA", visita: "IND", gl: null, gv: null, nota: "Fecha y localía por confirmar" },
-  { j: 9, fecha: null, hora: null, local: "GEN", visita: "OLI", gl: null, gv: null, nota: "Fecha y localía por confirmar" },
+  { j: 9, fecha: "2026-10-09", hora: "15:00", local: "PLA", visita: "JUT", gl: null, gv: null },
+  { j: 9, fecha: "2026-10-09", hora: "19:30", local: "MOT", visita: "CHO", gl: null, gv: null },
+  { j: 9, fecha: "2026-10-10", hora: "15:15", local: "GEN", visita: "OLI", gl: null, gv: null },
+  { j: 9, fecha: "2026-10-10", hora: "19:00", local: "UPN", visita: "MAR", gl: null, gv: null },
+  { j: 9, fecha: "2026-10-11", hora: "15:00", local: "EST", visita: "RE", gl: null, gv: null },
+  { j: 9, fecha: "2026-10-11", hora: "17:15", local: "OLA", visita: "IND", gl: null, gv: null },
 
   { j: 10, fecha: "2026-10-15", hora: "17:15", local: "MAR", visita: "OLA", gl: null, gv: null },
   { j: 10, fecha: "2026-10-15", hora: "19:30", local: "OLI", visita: "RE", gl: null, gv: null },

@@ -30,7 +30,6 @@ Todo está en `js/data.js`:
 ## Pendiente de verificar
 
 - **Desempates:** el orden en `La16.torneo.desempate` sale de las bases de la temporada 2025-26 (diferencia de goles, goles a favor y luego la serie particular), y coincide con las tablas publicadas. Hay que confirmarlo con las bases 2026-27. Si cambia, basta con reordenar ese arreglo.
-- **Jornada 9:** no se encontró ni la fecha ni la localía. Los cruces salen del calendario completo (es la única ronda que falta) y la localía se dedujo del reparto de partidos en casa de cada equipo.
 - **Jornada 16:** falta la hora de los partidos (se juegan el 21 o 22 de noviembre).
 - **Colores:** siete equipos usan el color neutro porque sus colores no están confirmados. Se editan con `color` y `texto` en `La16.equipos`.
 - **Excepción del descenso:** las fuentes no coinciden en qué pasa si el último del Apertura clasifica a la liguilla del Clausura, así que la app no la aplica.
@@ -39,3 +38,4 @@ Todo está en `js/data.js`:
 
 - Resultados de las jornadas 1 a 8: Wikipedia, "Torneo Apertura 2026 (Honduras)". Se comprobaron contra la tabla de aquehorajuegan.com y coinciden.
 - Calendario de las jornadas 10 a 16: Deportes TVC y Radio HRN (26 de septiembre de 2026). Las dos fuentes coinciden.
+- Fechas y localía de la jornada 9: API gratuita de TheSportsDB (liga 4818). Las horas vienen en UTC y se pasaron a la hora de Honduras (UTC−6).
