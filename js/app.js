@@ -85,9 +85,19 @@
   }
 
   function escudo(e) {
-    const anillo = e.borde ? `;box-shadow:inset 0 0 0 2px ${e.borde}` : "";
-    const estilo = e.color ? ` style="background:${e.color};color:${e.texto}${anillo}"` : "";
-    return `<span class="escudo"${estilo} aria-hidden="true">${e.id}</span>`;
+    return `<span class="escudo" data-equipo="${e.id}" aria-hidden="true">${e.id}</span>`;
+  }
+
+  // Los colores se aplican con el CSSOM y no con atributos style, para que la
+  // política de seguridad (CSP) pueda prohibir los estilos en línea.
+  function pintarEscudos() {
+    document.querySelectorAll(".escudo[data-equipo]").forEach((el) => {
+      const e = equipos.get(el.dataset.equipo);
+      if (!e || !e.color) return;
+      el.style.background = e.color;
+      el.style.color = e.texto;
+      if (e.borde) el.style.boxShadow = `inset 0 0 0 2px ${e.borde}`;
+    });
   }
 
   // --- Barra superior y aviso ---
@@ -153,7 +163,7 @@
     $("leyenda").innerHTML = La16.torneo.zonas
       .map((z) => {
         const rango = z.desde === z.hasta ? `${z.desde}.°` : `${z.desde}.° a ${z.hasta}.°`;
-        return `<li style="--zona: var(--zona-${z.clave})"><span class="leyenda__marca"></span>${z.nombre} (${rango})</li>`;
+        return `<li><span class="leyenda__marca leyenda__marca--${z.clave}"></span>${z.nombre} (${rango})</li>`;
       })
       .join("");
   }
@@ -327,6 +337,7 @@
     const tabla = La16.calcularTabla(La16.equipos, partidosEfectivos(), La16.torneo.desempate);
     renderBug(tabla);
     renderAviso();
+    pintarEscudos();
     return tabla;
   }
 
@@ -350,6 +361,7 @@
     } else {
       renderEquipo(tabla, partidos);
     }
+    pintarEscudos();
   }
 
   function cambiarJornada(delta) {

@@ -1,0 +1,16 @@
+{
+  "name": "La 16 · Apertura 2026",
+  "short_name": "La 16",
+  "description": "Tabla, jornadas y simulador del Apertura 2026 de la Liga Nacional de Honduras.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0A1128",
+  "theme_color": "#0A1128",
+  "icons": [
+    { "src": "assets/icono-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icono-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icono-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

@@ -1,0 +1,85 @@
+name: Actualizar y publicar
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # Horas en UTC. Equivalen a 10 p. m., 1 a. m. y 8 a. m. en Honduras (UTC-6),
+    # después de los partidos de la noche.
+    - cron: "0 4,7,14 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  actualizar:
+    if: github.event_name != 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    outputs:
+      cambio: ${{ steps.guardar.outputs.cambio }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Traer resultados de TheSportsDB
+        run: node scripts/actualizar.mjs
+        env:
+          THESPORTSDB_KEY: ${{ secrets.THESPORTSDB_KEY }}
+
+      - name: Guardar cambios
+        id: guardar
+        run: |
+          if git diff --quiet; then
+            echo "Sin cambios."
+            echo "cambio=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "Resultados actualizados desde TheSportsDB"
+          git push
+          echo "cambio=true" >> "$GITHUB_OUTPUT"
+
+  publicar:
+    needs: actualizar
+    # Publica tras un push a main, una corrida manual o cuando hubo resultados nuevos.
+    if: >-
+      always() && (
+        github.event_name == 'push' ||
+        github.event_name == 'workflow_dispatch' ||
+        needs.actualizar.outputs.cambio == 'true'
+      ) && needs.actualizar.result != 'failure'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.despliegue.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          persist-credentials: false
+
+      - name: Preparar el sitio
+        run: |
+          mkdir _site
+          cp -r index.html manifest.webmanifest css js assets _site/
+
+      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: _site
+
+      - id: despliegue
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

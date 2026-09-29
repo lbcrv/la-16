@@ -1,3 +1,36 @@
+/* Barlow y Barlow Condensed (SIL Open Font License, ver assets/fonts/OFL.txt) */
+@font-face {
+  font-family: "Barlow";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/barlow-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Barlow";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../assets/fonts/barlow-600.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../assets/fonts/barlow-condensed-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("../assets/fonts/barlow-condensed-800.woff2") format("woff2");
+}
+
 :root {
   --fondo: #0A1128;
   --superficie: #101A3A;
@@ -121,6 +154,10 @@ abbr[title] {
   border-radius: var(--radio);
   overflow: hidden;
   min-height: 40px;
+}
+
+.bug > * {
+  white-space: nowrap;
 }
 
 .bug__etiqueta {
@@ -518,6 +555,18 @@ main {
   background: var(--zona);
 }
 
+.leyenda__marca--semis {
+  --zona: var(--zona-semis);
+}
+
+.leyenda__marca--repechaje {
+  --zona: var(--zona-repechaje);
+}
+
+.leyenda__marca--descenso {
+  --zona: var(--zona-descenso);
+}
+
 /* Jornadas */
 .paginador {
   display: flex;
@@ -828,6 +877,24 @@ main {
   max-width: 80ch;
 }
 
+/* Pantallas táctiles: objetivos de al menos 44 px */
+@media (pointer: coarse) {
+  .chip,
+  .boton {
+    min-height: 44px;
+  }
+}
+
+body {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+select,
+input {
+  touch-action: manipulation;
+}
+
 @media (max-width: 720px) {
   .tabla .c-extra {
     display: none;
@@ -883,6 +950,57 @@ main {
   .selector,
   .selector select {
     width: 100%;
+  }
+}
+
+@media (max-width: 360px) {
+  .barra__torneo {
+    font-size: 13px;
+  }
+
+  .bug__etiqueta {
+    padding: 0 8px;
+    font-size: 12px;
+  }
+
+  .bug__equipo {
+    padding: 0 10px;
+    font-size: 16px;
+  }
+
+  .bug__equipo .escudo {
+    display: none;
+  }
+
+  .bug__pts {
+    padding: 0 10px;
+    font-size: 17px;
+  }
+
+  .partido {
+    padding-inline: 10px;
+  }
+
+  .partido__nombre {
+    white-space: normal;
+    line-height: 1.2;
+    font-size: 15px;
+    hyphens: auto;
+  }
+
+  .pestana {
+    padding-inline: 10px;
+    font-size: 16px;
+  }
+
+  .tabla td,
+  .tabla th {
+    padding-inline: 5px;
+  }
+
+  .marcador__gol,
+  .marcador input {
+    width: 38px;
   }
 }
 
