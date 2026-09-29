@@ -7,7 +7,16 @@ import vm from "node:vm";
 const SITIO = "https://la-16.pages.dev";
 const RAIZ = new URL("../", import.meta.url);
 const SALIDA = new URL("_site/", RAIZ);
-const PUBLICOS = ["index.html", "manifest.webmanifest", "_headers", "sw.js", "css", "js", "assets"];
+const PUBLICOS = [
+  "index.html",
+  "manifest.webmanifest",
+  "_headers",
+  "sw.js",
+  "css",
+  "js",
+  "assets",
+  "google4727fa26d908715f.html", // verificación de Google Search Console
+];
 const HORAS_HONDURAS = -6;
 const DURACION_HORAS = 2;
 
