@@ -1,0 +1,43 @@
+name: Actualizar resultados
+
+# Trae los resultados de TheSportsDB y hace commit si hay cambios.
+# Cloudflare Pages publica solo cada commit a main.
+
+on:
+  schedule:
+    # Horas en UTC. Equivalen a 10 p. m., 1 a. m. y 8 a. m. en Honduras (UTC-6),
+    # después de los partidos de la noche.
+    - cron: "0 4,7,14 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: actualizar
+  cancel-in-progress: false
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Traer resultados de TheSportsDB
+        run: node scripts/actualizar.mjs
+        env:
+          THESPORTSDB_KEY: ${{ secrets.THESPORTSDB_KEY }}
+
+      - name: Guardar cambios
+        run: |
+          if git diff --quiet; then
+            echo "Sin cambios."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "Resultados actualizados desde TheSportsDB"
+          git push

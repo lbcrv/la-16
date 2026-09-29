@@ -2,7 +2,7 @@
 
 Tabla de posiciones, jornadas y simulador del Apertura 2026 de la Liga Nacional de Honduras. El nombre viene de las 16 jornadas del formato nuevo.
 
-**En vivo:** https://lbcrv.github.io/la-16/
+**En vivo:** https://la-16.pages.dev/ (la dirección vieja, lbcrv.github.io/la-16, redirige aquí)
 
 Proyecto independiente de aficionados, sin afiliación con la Liga Nacional de Fútbol Profesional de Honduras ni con los clubes. No usa escudos, logos ni marcas oficiales.
 
@@ -24,10 +24,9 @@ Luego abre http://localhost:8716. También funciona con doble clic en `index.htm
 
 ## Actualización automática
 
-La tarea `.github/workflows/publicar.yml` hace dos cosas:
-
-1. **Actualizar**, tres veces al día (10 p. m., 1 a. m. y 8 a. m. hora de Honduras). Ejecuta `scripts/actualizar.mjs`, que consulta TheSportsDB y escribe en `js/data.js`. Si hubo cambios, hace commit y publica.
-2. **Publicar** el sitio en GitHub Pages en cada push a `main`.
+- **Publicación:** Cloudflare Pages está conectado al repo y publica cada commit a `main`. El comando de build copia solo los archivos del sitio (`index.html`, `manifest.webmanifest`, `_headers`, `css`, `js` y `assets`) a `_site`.
+- **Actualización:** la tarea `.github/workflows/actualizar.yml` corre tres veces al día (10 p. m., 1 a. m. y 8 a. m. hora de Honduras). Ejecuta `scripts/actualizar.mjs`, que consulta TheSportsDB y escribe en `js/data.js`. Si hubo cambios hace commit, y Cloudflare publica ese commit.
+- **Redirección:** `.github/workflows/redireccion.yml` publica en GitHub Pages solo la página de `redireccion/`, que manda a la dirección nueva y conserva la pestaña del enlace.
 
 Reglas del script:
 
@@ -36,7 +35,7 @@ Reglas del script:
 - En partidos pendientes actualiza la fecha y la hora si la liga las cambió. Si varios partidos de una jornada traen exactamente la misma hora, la toma como provisional y la ignora.
 - Solo consulta las jornadas que tienen algo por llenar, con pausas para no pasar el límite de la API gratuita.
 
-Para correrlo a mano: `node scripts/actualizar.mjs`. En GitHub también se puede lanzar desde **Actions → Actualizar y publicar → Run workflow**.
+Para correrlo a mano: `node scripts/actualizar.mjs`. En GitHub también se puede lanzar desde **Actions → Actualizar resultados → Run workflow**.
 
 La clave gratuita de TheSportsDB (`123`) es para pruebas y tiene límites. Si se contrata un plan, la clave se guarda como secreto del repo con el nombre `THESPORTSDB_KEY` y el script la usa sola.
 
@@ -51,10 +50,11 @@ Todo está en `js/data.js`. Cada partido ocupa una línea con el mismo formato, 
 
 ## Seguridad
 
-- Política de seguridad de contenido (CSP) estricta: solo se cargan scripts, estilos, fuentes e imágenes del propio sitio. No hay estilos ni scripts en línea.
+- Cabeceras de seguridad en `_headers` (Cloudflare): CSP estricta, `frame-ancestors 'none'` y `X-Frame-Options: DENY` contra que otra página meta el sitio en un marco, `nosniff`, `Referrer-Policy`, `Permissions-Policy` y HSTS.
+- La CSP también va en una etiqueta `<meta>` de `index.html`. Solo se cargan scripts, estilos, fuentes e imágenes del propio sitio, y no hay estilos ni scripts en línea.
 - Sin dependencias externas en tiempo de ejecución: las fuentes se sirven desde el propio sitio, sin Google Fonts.
 - La tarea de GitHub corre con permisos mínimos y las acciones están fijadas por hash de commit.
-- GitHub Pages sirve el sitio por HTTPS.
+- Todo se sirve por HTTPS.
 
 ## Pendiente de verificar
 
