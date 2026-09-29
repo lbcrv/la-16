@@ -17,20 +17,21 @@ La16.torneo = {
 
 La16.grupos = { N: "Norte", CO: "Centro-Oriente" };
 
-// color / texto: colores del distintivo. Los que usan el tono neutro están
-// pendientes de definir.
+// color: fondo del distintivo · texto: color de las iniciales · borde: anillo opcional
+// con el segundo color del club. Si dos clubes comparten colores, se invierten o se
+// usa el anillo para distinguirlos.
 La16.equipos = [
   { id: "RE", nombre: "Real España", ciudad: "San Pedro Sula", grupo: "N", color: "#FFD100", texto: "#111111" },
   { id: "MAR", nombre: "Marathón", ciudad: "San Pedro Sula", grupo: "N", color: "#0B7A3E", texto: "#FFFFFF" },
-  { id: "PLA", nombre: "Platense", ciudad: "Puerto Cortés", grupo: "N" },
-  { id: "CHO", nombre: "Choloma", ciudad: "Choloma", grupo: "N" },
-  { id: "IND", nombre: "Independiente", ciudad: "Siguatepeque", grupo: "N" },
-  { id: "GEN", nombre: "Génesis PN", ciudad: "La Paz", grupo: "N" },
+  { id: "PLA", nombre: "Platense", ciudad: "Puerto Cortés", grupo: "N", color: "#FFFFFF", texto: "#0E6B3A", borde: "#0E6B3A" },
+  { id: "CHO", nombre: "Choloma", ciudad: "Choloma", grupo: "N", color: "#111111", texto: "#FFFFFF", borde: "#D5202E" },
+  { id: "IND", nombre: "Independiente", ciudad: "Siguatepeque", grupo: "N", color: "#8E0F1B", texto: "#FFFFFF", borde: "#111111" },
+  { id: "GEN", nombre: "Génesis PN", ciudad: "La Paz", grupo: "N", color: "#111111", texto: "#FFD100" },
   { id: "OLI", nombre: "Olimpia", ciudad: "Tegucigalpa", grupo: "CO", color: "#FFFFFF", texto: "#0A1F5C" },
   { id: "MOT", nombre: "Motagua", ciudad: "Tegucigalpa", grupo: "CO", color: "#0A2E8A", texto: "#FFFFFF" },
-  { id: "UPN", nombre: "UPNFM", ciudad: "Tegucigalpa", grupo: "CO" },
-  { id: "OLA", nombre: "Olancho", ciudad: "Juticalpa", grupo: "CO" },
-  { id: "JUT", nombre: "Juticalpa", ciudad: "Juticalpa", grupo: "CO" },
+  { id: "UPN", nombre: "UPNFM", ciudad: "Tegucigalpa", grupo: "CO", color: "#1B3F8F", texto: "#FFFFFF", borde: "#F37021" },
+  { id: "OLA", nombre: "Olancho", ciudad: "Juticalpa", grupo: "CO", color: "#0A6E4F", texto: "#FFFFFF", borde: "#F37021" },
+  { id: "JUT", nombre: "Juticalpa", ciudad: "Juticalpa", grupo: "CO", color: "#075E2E", texto: "#FFD100" },
   { id: "EST", nombre: "Estrella Roja", ciudad: "Danlí", grupo: "CO", color: "#C8102E", texto: "#FFFFFF" },
 ];
 

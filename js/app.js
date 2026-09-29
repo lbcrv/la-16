@@ -85,7 +85,8 @@
   }
 
   function escudo(e) {
-    const estilo = e.color ? ` style="background:${e.color};color:${e.texto}"` : "";
+    const anillo = e.borde ? `;box-shadow:inset 0 0 0 2px ${e.borde}` : "";
+    const estilo = e.color ? ` style="background:${e.color};color:${e.texto}${anillo}"` : "";
     return `<span class="escudo"${estilo} aria-hidden="true">${e.id}</span>`;
   }
 

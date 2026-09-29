@@ -31,7 +31,6 @@ Todo está en `js/data.js`:
 
 - **Desempates:** el orden en `La16.torneo.desempate` sale de las bases de la temporada 2025-26 (diferencia de goles, goles a favor y luego la serie particular), y coincide con las tablas publicadas. Hay que confirmarlo con las bases 2026-27. Si cambia, basta con reordenar ese arreglo.
 - **Jornada 16:** falta la hora de los partidos (se juegan el 21 o 22 de noviembre).
-- **Colores:** siete equipos usan el color neutro porque sus colores no están confirmados. Se editan con `color` y `texto` en `La16.equipos`.
 - **Excepción del descenso:** las fuentes no coinciden en qué pasa si el último del Apertura clasifica a la liguilla del Clausura, así que la app no la aplica.
 
 ## Fuentes de los datos
