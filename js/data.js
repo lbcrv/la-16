@@ -104,7 +104,7 @@ La16.partidos = [
   { j: 10, fecha: "2026-10-15", hora: "19:30", local: "OLI", visita: "RE", gl: null, gv: null },
   { j: 10, fecha: "2026-10-17", hora: "15:00", local: "PLA", visita: "MOT", gl: 0, gv: 2 },
   { j: 10, fecha: "2026-10-17", hora: "17:15", local: "JUT", visita: "CHO", gl: 1, gv: 2 },
-  { j: 10, fecha: "2026-10-17", hora: "19:30", local: "IND", visita: "UPN", gl: null, gv: null },
+  { j: 10, fecha: "2026-10-17", hora: "19:30", local: "IND", visita: "UPN", gl: 0, gv: 4 },
   { j: 10, fecha: "2026-10-18", hora: "15:00", local: "GEN", visita: "EST", gl: null, gv: null },
 
   { j: 11, fecha: "2026-10-23", hora: "19:30", local: "OLA", visita: "EST", gl: null, gv: null },
