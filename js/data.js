@@ -4,7 +4,7 @@ window.La16 = window.La16 || {};
 
 La16.torneo = {
   nombre: "Apertura 2026",
-  actualizado: "2026-10-30",
+  actualizado: "2026-10-31",
   // Criterios tras los puntos, en orden. Tomados de las bases 2025-26 (coinciden
   // con las tablas publicadas). Confirmar con las bases 2026-27.
   desempate: ["dg", "gf", "h2hPts", "h2hDg", "h2hGolesVisita"],
@@ -115,7 +115,7 @@ La16.partidos = [
   { j: 11, fecha: "2026-10-25", hora: "17:15", local: "UPN", visita: "OLI", gl: 0, gv: 1 },
 
   { j: 12, fecha: "2026-10-30", hora: "19:00", local: "EST", visita: "IND", gl: 3, gv: 1 },
-  { j: 12, fecha: "2026-10-31", hora: "15:00", local: "UPN", visita: "GEN", gl: null, gv: null },
+  { j: 12, fecha: "2026-10-31", hora: "15:00", local: "UPN", visita: "GEN", gl: 4, gv: 3 },
   { j: 12, fecha: "2026-10-31", hora: "17:15", local: "RE", visita: "JUT", gl: null, gv: null },
   { j: 12, fecha: "2026-10-31", hora: "19:30", local: "CHO", visita: "OLI", gl: null, gv: null },
   { j: 12, fecha: "2026-11-01", hora: "15:00", local: "OLA", visita: "PLA", gl: null, gv: null },
