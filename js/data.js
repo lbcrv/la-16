@@ -135,12 +135,12 @@ La16.partidos = [
   { j: 14, fecha: "2026-11-08", hora: "17:15", local: "IND", visita: "RE", gl: null, gv: null },
   { j: 14, fecha: "2026-11-08", hora: "19:30", local: "MAR", visita: "CHO", gl: null, gv: null },
 
-  { j: 15, fecha: "2026-11-18", hora: "15:00", local: "PLA", visita: "CHO", gl: null, gv: null },
-  { j: 15, fecha: "2026-11-18", hora: "17:15", local: "EST", visita: "UPN", gl: null, gv: null },
-  { j: 15, fecha: "2026-11-18", hora: "19:30", local: "RE", visita: "MAR", gl: null, gv: null },
-  { j: 15, fecha: "2026-11-19", hora: "15:00", local: "GEN", visita: "IND", gl: null, gv: null },
-  { j: 15, fecha: "2026-11-19", hora: "17:15", local: "JUT", visita: "OLA", gl: null, gv: null },
-  { j: 15, fecha: "2026-11-19", hora: "19:30", local: "MOT", visita: "OLI", gl: null, gv: null },
+  { j: 15, fecha: "2026-11-22", hora: "15:00", local: "PLA", visita: "CHO", gl: null, gv: null },
+  { j: 15, fecha: "2026-11-21", hora: "17:15", local: "EST", visita: "UPN", gl: null, gv: null },
+  { j: 15, fecha: "2026-11-21", hora: "19:30", local: "RE", visita: "MAR", gl: null, gv: null },
+  { j: 15, fecha: "2026-11-21", hora: "15:00", local: "GEN", visita: "IND", gl: null, gv: null },
+  { j: 15, fecha: "2026-11-22", hora: "19:30", local: "JUT", visita: "OLA", gl: null, gv: null },
+  { j: 15, fecha: "2026-11-22", hora: "17:15", local: "MOT", visita: "OLI", gl: null, gv: null },
 
   { j: 16, fecha: null, hora: null, local: "MAR", visita: "GEN", gl: null, gv: null, nota: "21 o 22 de noviembre" },
   { j: 16, fecha: null, hora: null, local: "IND", visita: "PLA", gl: null, gv: null, nota: "21 o 22 de noviembre" },
